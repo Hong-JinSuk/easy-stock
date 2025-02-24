@@ -38,14 +38,6 @@ export const sidebarAtom = atomWithStorage<boolean>(
   getInitSidebarState()
 );
 
-// const getInitThemeState = () => {
-//   if (typeof window !== 'undefined') {
-//     const storedValue = localStorage.getItem('theme');
-//     return storedValue ? JSON.parse(storedValue) : 'light';
-//   }
-//   return 'dark';
-// };
-
 export const themeAtom = atomWithStorage<'light' | 'dark' | 'system'>(
   'theme',
   'system'

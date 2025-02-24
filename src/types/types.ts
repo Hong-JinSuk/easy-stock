@@ -24,3 +24,10 @@ export type UserInfo = {
   loginFailCnt: number;
   userGrpId: string[];
 };
+
+export type SidebarMenu = {
+  menuNm_ENG: string;
+  menuNm_KO: string;
+  link?: string; // 더보기 같은 메뉴 추가 가능성 있음.
+  children?: SidebarMenu[];
+};

@@ -75,7 +75,7 @@ export default function RootLayout({
             <TooltipProvider>
               <div className="w-full h-screen flex overflow-hidden">
                 <Sidebar />
-                <main className="w-full h-full flex flex-col">
+                <main className="w-full h-full flex flex-col relative">
                   <Header />
                   {children}
                 </main>
