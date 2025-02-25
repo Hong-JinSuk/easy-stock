@@ -19,7 +19,7 @@ body {
 
 @layer components {
   .mobile-hidden {
-    @apply hidden md:block;
+    @apply hidden md:flex;
   }
 }
 
