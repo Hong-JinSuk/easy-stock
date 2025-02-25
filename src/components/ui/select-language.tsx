@@ -23,9 +23,15 @@ type Props = {
   data: Language[];
   language: string;
   setLanguage: (value: LanguageType) => void;
+  width?: string;
 };
 
-export function SelectLanguage({ data, language, setLanguage }: Props) {
+export function SelectLanguage({
+  data,
+  language,
+  setLanguage,
+  width = '150px',
+}: Props) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -35,13 +41,15 @@ export function SelectLanguage({ data, language, setLanguage }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[150px] justify-between"
+          className={`w-[${width}px] justify-between`}
         >
           <img
             src={data.find((lang) => lang.value === language)?.flag}
             className="aspect-[3/2] w-6"
           />
-          {data.find((lang) => lang.value === language)?.label}
+          <span className="mobile-hidden">
+            {data.find((lang) => lang.value === language)?.label}
+          </span>
           <ChevronDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

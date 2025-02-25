@@ -17,6 +17,12 @@ body {
   font-family: Noto Sans KO;
 }
 
+@layer components {
+  .mobile-hidden {
+    @apply hidden md:block;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
