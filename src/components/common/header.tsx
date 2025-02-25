@@ -1,15 +1,21 @@
-import { sidebarAtom } from '@/store/atom';
+import { languageATom, sidebarAtom } from '@/store/atom';
+import { languageData } from '@/store/language';
 import { sidebarMenus } from '@/store/sidebar';
 import { useAtom } from 'jotai';
 import { Bell, Menu, Search } from 'lucide-react';
-import { useState } from 'react';
-import { Label } from '../ui/label';
-import { Switch } from '../ui/switch';
+import { useEffect, useState } from 'react';
+import { SelectLanguage } from '../ui/select-language';
 import AvatarDropdown from './avatar-dropdown';
 
 export default function Header() {
   const [sidebar, setSidebar] = useAtom(sidebarAtom);
+  const [language, setLanguage] = useAtom(languageATom);
   const [searchValue, setSearchValue] = useState<string>('');
+  const langData = languageData;
+
+  useEffect(() => {
+    console.log(language);
+  }, [language]);
 
   const onClickSidebarMenu = () => {
     setSidebar((prev) => !prev);
@@ -37,15 +43,21 @@ export default function Header() {
           />
           <Search />
         </div>
-        {Menus.map((menu) => (
-          <div className="hidden items-center justify-center lg:flex">
-            {menu.menuNm_ENG}
+        {Menus.map((menu, index) => (
+          <div
+            className="hidden items-center justify-center lg:flex"
+            key={index}
+          >
+            {`${menu[`menuNm_${language}` as keyof typeof menu]}`}
           </div>
         ))}
-        <div className="flex items-center justify-center gap-2 w- bg-slate-300">
+        <div className="flex items-center justify-center gap-2">
           <div className="flex flex-col items-center gap-3">
-            <Label htmlFor="airplane-mode">한/Eng</Label>
-            <Switch id="airplane-mode" />
+            <SelectLanguage
+              data={langData}
+              setLanguage={setLanguage}
+              language={language}
+            />
           </div>
           <Bell className="cursor-pointer hover:bg-accent hover:bg-green-100 rounded-lg p-1.5 size-8" />
           <AvatarDropdown />

@@ -42,3 +42,5 @@ export const themeAtom = atomWithStorage<'light' | 'dark' | 'system'>(
   'theme',
   'system'
 );
+
+export const languageATom = atomWithStorage<'KO' | 'ENG'>('language', 'KO');
