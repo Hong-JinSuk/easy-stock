@@ -27,7 +27,9 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto md:min-h-[75px] lg:max-h-[135px]  sticky top-0 bg-background border-b-2 border-blue-900`}
+      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background md:min-h-[75px] md:max-h-[75px] border-b-2 border-blue-900 ${
+        selectedMenus === 'Finance' ? 'lg:max-h-[120px] lg:min-h-[120px]' : ''
+      }`}
     >
       <div className="w-full max-w-screen-2xl flex items-center justify-between px-4 gap-4 min-h-[75px] max-h-[75px]">
         <div className="flex items-center justify-center gap-2">
@@ -73,10 +75,10 @@ export default function Header() {
         </div>
       </div>
       <div
-        className={`mobile-hidden w-full items-center justify-center bg-slate-200 2xl:mx-auto  ${
+        className={`hidden w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto ${
           selectedMenus === 'Finance'
-            ? 'md:min-h-[50px] max-h-[50px]'
-            : 'h-0 opacity-0 overflow-hidden'
+            ? 'lg:flex min-h-[45px] max-h-[45px] border-b border-blue-900'
+            : 'hidden'
         }`}
       >
         <div className="w-full max-w-screen-2xl flex items-center justify-between px-4 gap-4">
