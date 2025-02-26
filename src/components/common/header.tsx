@@ -3,9 +3,10 @@ import { languageData } from '@/store/language';
 import { sidebarMenus } from '@/store/sidebar';
 import { useAtom } from 'jotai';
 import { Bell, Menu, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SelectLanguage } from '../ui/select-language';
 import AvatarDropdown from './avatar-dropdown';
+import HeaderNavigationMenu from './header-navigation-menu';
 
 const langData = languageData;
 const Menus = sidebarMenus;
@@ -14,7 +15,7 @@ export default function Header() {
   const [sidebar, setSidebar] = useAtom(sidebarAtom);
   const [language, setLanguage] = useAtom(languageATom);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [selectedMenus, setSelectedMenus] = useState<string>('News');
+  const [selectedMenus, setSelectedMenus] = useState<string>('Finance');
 
   const onClickSidebarMenu = () => {
     setSidebar((prev) => !prev);
@@ -25,10 +26,21 @@ export default function Header() {
     setSelectedMenus(target.innerText);
   };
 
+  useEffect(() => {
+    console.log(selectedMenus);
+  }, [selectedMenus]);
+
   return (
     <header
-      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background md:min-h-[75px] md:max-h-[75px] border-b-2 border-blue-900 ${
-        selectedMenus === 'Finance' ? 'lg:max-h-[120px] lg:min-h-[120px]' : ''
+      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background md:min-h-[75px] md:max-h-[75px] border-b-2 border-blue-900 z-50 ${
+        sidebarMenus.find(
+          (menu) =>
+            menu.children &&
+            (selectedMenus === menu.menuNm_KO ||
+              selectedMenus === menu.menuNm_ENG)
+        )
+          ? 'lg:max-h-[120px] lg:min-h-[120px]'
+          : ''
       }`}
     >
       <div className="w-full max-w-screen-2xl flex items-center justify-between px-4 gap-4 min-h-[75px] max-h-[75px]">
@@ -74,17 +86,39 @@ export default function Header() {
           <AvatarDropdown />
         </div>
       </div>
-      <div
+      {Menus.map((menu, index) => (
+        <>
+          {menu.children && (
+            <div
+              className={`w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto  ${
+                selectedMenus === menu.menuNm_ENG ||
+                selectedMenus === menu.menuNm_KO
+                  ? 'lg:flex min-h-[45px] max-h-[45px] border-b border-blue-900'
+                  : `hidden`
+              }`}
+              key={index}
+            >
+              <div className="w-full h-full max-w-screen-2xl flex items-center justify-between px-4 gap-4">
+                <HeaderNavigationMenu
+                  menus={menu.children}
+                  language={language}
+                />
+              </div>
+            </div>
+          )}
+        </>
+      ))}
+      {/* <div
         className={`hidden w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto ${
-          selectedMenus === 'Finance'
+          selectedMenus === 'Finance' || selectedMenus === '경제'
             ? 'lg:flex min-h-[45px] max-h-[45px] border-b border-blue-900'
             : 'hidden'
         }`}
       >
-        <div className="w-full max-w-screen-2xl flex items-center justify-between px-4 gap-4">
-          dfijosdfdjiso
+        <div className="w-full h-full max-w-screen-2xl flex items-center justify-between px-4 gap-4">
+          <HeaderNavigationMenu menus={Menus} language={language} />
         </div>
-      </div>
+      </div> */}
     </header>
   );
 }
