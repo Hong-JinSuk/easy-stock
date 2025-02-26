@@ -35,7 +35,7 @@ export default function HeaderNavigationMenu({
       {menus.map((menu, index) => (
         <div
           className="relative flex flex-col group hover:bg-green-100 rounded-lg p-1 px-3"
-          key={index}
+          key={`header-navigation-${index}`}
         >
           {/* trigger */}
           <div
@@ -64,7 +64,7 @@ export default function HeaderNavigationMenu({
               {menu.children?.map((child, index_) => (
                 <div
                   className="p-1 px-2 flex items-center hover:bg-green-100 rounded-lg max-w-36 min-w-36 h-8 cursor-pointer"
-                  key={index_}
+                  key={`index_-${index_}`}
                 >
                   <span className="truncate text-sm font-bold">{`${
                     child[`menuNm_${language}` as keyof typeof child]

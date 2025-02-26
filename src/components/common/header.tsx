@@ -3,7 +3,7 @@ import { languageData } from '@/store/language';
 import { sidebarMenus } from '@/store/sidebar';
 import { useAtom } from 'jotai';
 import { Bell, Menu, Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SelectLanguage } from '../ui/select-language';
 import AvatarDropdown from './avatar-dropdown';
 import HeaderNavigationMenu from './header-navigation-menu';
@@ -26,27 +26,21 @@ export default function Header() {
     setSelectedMenus(target.innerText);
   };
 
-  useEffect(() => {
-    console.log(selectedMenus);
-  }, [selectedMenus]);
-
   return (
     <header
-      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background md:min-h-[75px] md:max-h-[75px] border-b-2 border-blue-900 z-50 ${
+      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background min-h-[75px] max-h-[75px] border-b-2 border-blue-900 z-50 ${
         sidebarMenus.find(
           (menu) =>
             menu.children &&
             (selectedMenus === menu.menuNm_KO ||
               selectedMenus === menu.menuNm_ENG)
-        )
-          ? 'lg:max-h-[120px] lg:min-h-[120px]'
-          : ''
+        ) && 'lg:max-h-[120px] lg:min-h-[120px]'
       }`}
     >
       <div className="w-full max-w-screen-2xl flex items-center justify-between px-4 gap-4 min-h-[75px] max-h-[75px]">
         <div className="flex items-center justify-center gap-2">
           <Menu
-            className="cursor-pointer hover:bg-accent hover:bg-green-100 rounded-lg p-1.5 size-8"
+            className="cursor-pointer hover:bg-accent hover:bg-green-100 rounded-lg p-1.5 size-8 lg:hidden"
             onClick={onClickSidebarMenu}
           />
           <span className="mobile-hidden font-bold text-blue-600">Ea~~sy</span>
@@ -61,18 +55,22 @@ export default function Header() {
           />
           <Search />
         </div>
+        {/* header menu */}
+        {/* todo : Link to menu */}
         {Menus.map((menu, index) => (
-          <div
+          <section
             className="hidden items-center justify-center lg:flex"
-            key={index}
+            key={`header-${index}`}
           >
             <span
               className={`hover:text-green-700 cursor-pointer font-bold text-sm ${
-                selectedMenus === menu['menuNm_ENG'] && 'text-green-700'
+                (selectedMenus === menu['menuNm_ENG'] ||
+                  selectedMenus === menu['menuNm_KO']) &&
+                'text-green-700'
               }`}
               onClick={(e) => onClickMenu(e)}
             >{`${menu[`menuNm_${language}` as keyof typeof menu]}`}</span>
-          </div>
+          </section>
         ))}
         <div className="flex items-center justify-center gap-2">
           <div className="flex flex-col items-center gap-3">
@@ -86,17 +84,18 @@ export default function Header() {
           <AvatarDropdown />
         </div>
       </div>
+      {/* subheader */}
       {Menus.map((menu, index) => (
         <>
           {menu.children && (
-            <div
-              className={`w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto  ${
+            <section
+              className={`hidden w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto  ${
                 selectedMenus === menu.menuNm_ENG ||
                 selectedMenus === menu.menuNm_KO
                   ? 'lg:flex min-h-[45px] max-h-[45px] border-b border-blue-900'
                   : `hidden`
               }`}
-              key={index}
+              key={`subheader-${index}`}
             >
               <div className="w-full h-full max-w-screen-2xl flex items-center justify-between px-4 gap-4">
                 <HeaderNavigationMenu
@@ -104,21 +103,10 @@ export default function Header() {
                   language={language}
                 />
               </div>
-            </div>
+            </section>
           )}
         </>
       ))}
-      {/* <div
-        className={`hidden w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto ${
-          selectedMenus === 'Finance' || selectedMenus === '경제'
-            ? 'lg:flex min-h-[45px] max-h-[45px] border-b border-blue-900'
-            : 'hidden'
-        }`}
-      >
-        <div className="w-full h-full max-w-screen-2xl flex items-center justify-between px-4 gap-4">
-          <HeaderNavigationMenu menus={Menus} language={language} />
-        </div>
-      </div> */}
     </header>
   );
 }
