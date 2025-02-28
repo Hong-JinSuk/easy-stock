@@ -1,4 +1,4 @@
-import { languageATom, sidebarAtom } from '@/store/atom';
+import { sidebarAtom } from '@/store/atom';
 import { sidebarMenus } from '@/store/sidebar';
 import { useAtom } from 'jotai';
 import { Menu, X } from 'lucide-react';
@@ -10,7 +10,6 @@ const Menus = sidebarMenus;
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useAtom(sidebarAtom);
-  const [language, setLanguage] = useAtom(languageATom);
   const navigate = useRouter();
 
   const onClickClose = () => {

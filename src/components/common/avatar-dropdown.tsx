@@ -124,64 +124,29 @@ type Props = {
 };
 
 export default function AvatarDropdown({ align = 'end' }: Props) {
-  const {
-    // openConfirmModal,
-    // openProfileModal,
-    // openHotkeysModal,
-    // openChangePasswordModal,
-  } = useModal();
+  const { openLogoutModal } = useModal();
   const { toast } = useToast();
   const navigate = useRouter();
   const setUser = useSetAtom(userAtom);
-  // const isMac = getOS() === 'macOS';
 
   const menus = getMenus(false);
 
-  const handleNavigate = (menuName: string) => {
-    navigate.push(`/portal/${menus[1][0].value}/${menuName}`);
+  const handleOnClick = (value: string) => {
+    switch (value) {
+      case 'profile':
+        // openProfileModal();
+        break;
+      case 'hotkeys':
+        // openHotkeysModal();
+        break;
+      case 'changePassword':
+        // openChangePasswordModal();
+        break;
+      case 'logout':
+        openLogoutModal({});
+        break;
+    }
   };
-
-  // const handleLogout = () => {
-  //   requestSignOut()
-  //     .then((message) => {
-  //       setUser(INITIAL_USER);
-  //       toast('success', message);
-  //       navigate.push('/login');
-  //     })
-  //     .catch(console.log);
-  // };
-
-  // const handleOnClick = (value: string) => {
-  //   switch (value) {
-  //     case 'profile':
-  //       openProfileModal();
-  //       break;
-  //     case 'hotkeys':
-  //       openHotkeysModal();
-  //       break;
-  //     case 'admin':
-  //       window.open('/dataeye-mng/main/admin/atr');
-  //       break;
-  //     case 'bookmarks':
-  //     case 'latest-dataset':
-  //     case 'latest-analysis':
-  //     case 'analysis-tasks':
-  //       handleNavigate(value);
-  //       break;
-  //     case 'support':
-  //       openHelpGuidePopup();
-  //       break;
-  //     case 'changePassword':
-  //       openChangePasswordModal();
-  //       break;
-  //     case 'logout':
-  //       openConfirmModal({
-  //         title: '로그아웃 하시겠습니까?',
-  //         // onClick: handleLogout,
-  //       });
-  //       break;
-  //   }
-  // };
 
   return (
     <DropdownMenu>
@@ -211,7 +176,10 @@ export default function AvatarDropdown({ align = 'end' }: Props) {
                           {subMenus.map(({ icon, label, value }) => (
                             <DropdownMenuItem
                               key={value}
-                              // onClick={() => handleOnClick(value)}
+                              onClick={() => {
+                                console.log(value);
+                                handleOnClick(value);
+                              }}
                             >
                               {icon}
                               <span>{label}</span>
@@ -223,7 +191,10 @@ export default function AvatarDropdown({ align = 'end' }: Props) {
                   ) : (
                     <DropdownMenuItem
                       disabled={isDisabled}
-                      // onClick={() => handleOnClick(value)}
+                      onClick={() => {
+                        console.log(value);
+                        handleOnClick(value);
+                      }}
                     >
                       {icon}
                       <span>{label}</span>

@@ -1,6 +1,7 @@
 import { modalAtom } from '@/store/atom';
 import { useAtom } from 'jotai';
 import LoginModal from './login-modal';
+import LogoutModal from './logout-modal';
 
 export default function ModalProvider() {
   const [{ isOpen, type, data }, setModal] = useAtom(modalAtom);
@@ -22,6 +23,11 @@ export default function ModalProvider() {
     <>
       <LoginModal
         isOpen={isOpen && type === 'login'}
+        data={data}
+        onClose={closeModal}
+      />
+      <LogoutModal
+        isOpen={isOpen && type === 'logout'}
         data={data}
         onClose={closeModal}
       />

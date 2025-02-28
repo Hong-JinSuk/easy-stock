@@ -6,7 +6,7 @@ export type Modal = {
 
 export type ModalProps = {
   isOpen: boolean;
-  data: any;
+  data?: any;
   onClose: () => void;
 };
 
