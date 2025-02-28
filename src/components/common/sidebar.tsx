@@ -24,7 +24,10 @@ export default function Sidebar() {
   return (
     <>
       {isOpen && (
-        <div className="fixed w-full h-full bg-black bg-opacity-70 z-50"></div>
+        <div
+          className="fixed w-full h-full bg-black bg-opacity-70 z-50"
+          onClick={onClickClose}
+        ></div>
       )}
       <aside
         className={`absolute h-full w-72 flex flex-col bg-background transition-all duration-500 z-50 ${
