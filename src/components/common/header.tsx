@@ -1,10 +1,12 @@
+import useModal from '@/hooks/useModal';
 import { languageATom, sidebarAtom } from '@/store/atom';
 import { languageData } from '@/store/language';
 import { sidebarMenus } from '@/store/sidebar';
 import { useAtom } from 'jotai';
 import { Bell, Menu, Search } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { SelectLanguage } from '../ui/select-language';
 import AvatarDropdown from './avatar-dropdown';
 import HeaderNavigationMenu from './header-navigation-menu';
@@ -18,18 +20,25 @@ export default function Header() {
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedMenus, setSelectedMenus] = useState<string>('Finance');
   const navigate = useRouter();
+  const { data: session } = useSession();
+  const { openLoginModal } = useModal();
 
   const onClickSidebarMenu = () => {
     setSidebar((prev) => !prev);
   };
 
-  const onClickMenu = (menu: React.MouseEvent<HTMLSpanElement>) => {
+  const onClickMenu = (menu: MouseEvent<HTMLSpanElement>) => {
     const target = menu.currentTarget as HTMLSpanElement;
     setSelectedMenus(target.innerText);
   };
 
   const navigation = (path: string) => {
     navigate.push(`${path}`);
+  };
+
+  const onClickLogin = async (e: MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    openLoginModal('');
   };
 
   return (
@@ -97,6 +106,13 @@ export default function Header() {
             />
           </div>
           <Bell className="cursor-pointer hover:bg-accent hover:bg-green-100 rounded-lg p-1.5 size-8 md:size-9 xl:size-10" />
+          {session ? (
+            <AvatarDropdown />
+          ) : (
+            <div onClick={(e: MouseEvent<HTMLDivElement>) => onClickLogin(e)}>
+              login
+            </div>
+          )}
           <AvatarDropdown />
         </div>
       </div>

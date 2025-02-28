@@ -13,16 +13,10 @@ export type ModalProps = {
 export type UserInfo = {
   userId: string;
   userNm: string;
+  password: string;
   emailAddr: string | null;
-  orgId: string;
-  orgNm: string;
-  userGroups: string[];
-  accountNonExpired: boolean;
-  accountNonLocked: boolean;
-  credentialsNonExpired: boolean;
-  accountEnabled: boolean;
-  loginFailCnt: number;
-  userGrpId: string[];
+  picture: string;
+  class: '1' | '2' | '3' | '4' | '5' | null;
 };
 
 export type SidebarMenu = {

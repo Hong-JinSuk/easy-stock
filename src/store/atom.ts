@@ -8,19 +8,13 @@ export const modalAtom = atom<Modal>({
   data: null,
 });
 
-export const INITIAL_USER = {
+export const INITIAL_USER: UserInfo = {
   userId: '',
   userNm: '',
+  password: '',
   emailAddr: null,
-  orgId: '',
-  orgNm: '',
-  userGroups: [''],
-  accountNonExpired: false,
-  accountNonLocked: false,
-  credentialsNonExpired: false,
-  accountEnabled: false,
-  loginFailCnt: 0,
-  userGrpId: [''],
+  picture: '',
+  class: null,
 };
 
 export const userAtom = atom<UserInfo>(INITIAL_USER);

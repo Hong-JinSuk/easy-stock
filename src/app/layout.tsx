@@ -2,6 +2,7 @@
 import Header from '@/components/common/header';
 import Sidebar from '@/components/common/sidebar';
 import ModalProvider from '@/components/modals/modal-provider';
+import AuthProvider from '@/components/providers/session-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import useToast from '@/hooks/useToast';
@@ -65,27 +66,29 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme={theme}
-            enableSystem
-            disableTransitionOnChange
-            storageKey="theme"
-          >
-            <TooltipProvider>
-              <div className="w-full h-screen flex overflow-hidden relative">
-                <Sidebar />
-                <main className="w-full h-full flex flex-col relative">
-                  <Header />
-                  <div className="w-full h-full 2xl:mx-auto max-w-screen-2xl p-4">
-                    {children}
-                  </div>
-                </main>
-              </div>
-              <ModalProvider />
-              <Toaster />
-            </TooltipProvider>
-          </ThemeProvider>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme={theme}
+              enableSystem
+              disableTransitionOnChange
+              storageKey="theme"
+            >
+              <TooltipProvider>
+                <div className="w-full h-screen flex overflow-hidden relative">
+                  <Sidebar />
+                  <main className="w-full h-full flex flex-col relative">
+                    <Header />
+                    <div className="w-full h-full 2xl:mx-auto max-w-screen-2xl p-4">
+                      {children}
+                    </div>
+                  </main>
+                </div>
+                <ModalProvider />
+                <Toaster />
+              </TooltipProvider>
+            </ThemeProvider>
+          </AuthProvider>
         </QueryClientProvider>
       </body>
     </html>
