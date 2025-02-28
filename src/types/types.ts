@@ -28,7 +28,7 @@ export type UserInfo = {
 export type SidebarMenu = {
   menuNm_ENG: string;
   menuNm_KO: string;
-  link?: string;
+  link: string;
   children?: SidebarMenu[];
 };
 

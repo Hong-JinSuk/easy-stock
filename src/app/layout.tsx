@@ -73,11 +73,13 @@ export default function RootLayout({
             storageKey="theme"
           >
             <TooltipProvider>
-              <div className="w-full h-screen flex overflow-hidden">
+              <div className="w-full h-screen flex overflow-hidden relative">
                 <Sidebar />
                 <main className="w-full h-full flex flex-col relative">
                   <Header />
-                  {children}
+                  <div className="w-full h-full 2xl:mx-auto max-w-screen-2xl p-4">
+                    {children}
+                  </div>
                 </main>
               </div>
               <ModalProvider />

@@ -3,7 +3,8 @@ import { languageData } from '@/store/language';
 import { sidebarMenus } from '@/store/sidebar';
 import { useAtom } from 'jotai';
 import { Bell, Menu, Search } from 'lucide-react';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { SelectLanguage } from '../ui/select-language';
 import AvatarDropdown from './avatar-dropdown';
 import HeaderNavigationMenu from './header-navigation-menu';
@@ -16,6 +17,7 @@ export default function Header() {
   const [language, setLanguage] = useAtom(languageATom);
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedMenus, setSelectedMenus] = useState<string>('Finance');
+  const navigate = useRouter();
 
   const onClickSidebarMenu = () => {
     setSidebar((prev) => !prev);
@@ -26,9 +28,13 @@ export default function Header() {
     setSelectedMenus(target.innerText);
   };
 
+  const navigation = (path: string) => {
+    navigate.push(`${path}`);
+  };
+
   return (
     <header
-      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background min-h-[75px] max-h-[75px] border-b-2 border-blue-900 z-50 ${
+      className={`w-full flex flex-col items-center justify-center 2xl:mx-auto sticky top-0 bg-background min-h-[75px] max-h-[75px] border-b-2 border-blue-900 z-40 ${
         sidebarMenus.find(
           (menu) =>
             menu.children &&
@@ -43,8 +49,15 @@ export default function Header() {
             className="cursor-pointer hover:bg-accent hover:bg-green-100 rounded-lg p-1.5 size-8 lg:hidden"
             onClick={onClickSidebarMenu}
           />
-          <span className="mobile-hidden font-bold text-blue-600">Ea~~sy</span>
-          <span className="mobile-hidden font-bold">Stock!</span>
+          <div
+            className="flex gap-2 cursor-pointer"
+            onClick={() => navigation('/')}
+          >
+            <span className="mobile-hidden font-bold text-blue-600">
+              Ea~~sy
+            </span>
+            <span className="mobile-hidden font-bold">Stock!</span>
+          </div>
         </div>
         <div className="flex flex-grow items-center justify-center border-2 rounded-xl group px-2 h-10">
           <input
@@ -68,7 +81,10 @@ export default function Header() {
                   selectedMenus === menu['menuNm_KO']) &&
                 'text-green-700'
               }`}
-              onClick={(e) => onClickMenu(e)}
+              onClick={(e) => {
+                onClickMenu(e);
+                navigation(menu.link);
+              }}
             >{`${menu[`menuNm_${language}` as keyof typeof menu]}`}</span>
           </section>
         ))}
@@ -86,7 +102,7 @@ export default function Header() {
       </div>
       {/* subheader */}
       {Menus.map((menu, index) => (
-        <>
+        <React.Fragment key={index}>
           {menu.children && (
             <section
               className={`hidden w-full flex-grow items-center justify-center bg-slate-200 2xl:mx-auto  ${
@@ -105,7 +121,7 @@ export default function Header() {
               </div>
             </section>
           )}
-        </>
+        </React.Fragment>
       ))}
     </header>
   );

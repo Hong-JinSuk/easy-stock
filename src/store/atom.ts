@@ -1,4 +1,4 @@
-import { Modal, UserInfo } from '@/types/types';
+import { LanguageType, Modal, UserInfo } from '@/types/types';
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
@@ -25,22 +25,11 @@ export const INITIAL_USER = {
 
 export const userAtom = atom<UserInfo>(INITIAL_USER);
 
-const getInitSidebarState = () => {
-  if (typeof window !== 'undefined') {
-    const value = localStorage.getItem('sidebar');
-    return value ? JSON.parse(value) : true;
-  }
-  return true;
-};
-
-export const sidebarAtom = atomWithStorage<boolean>(
-  'sidebar',
-  getInitSidebarState()
-);
+export const sidebarAtom = atom<boolean>(false);
 
 export const themeAtom = atomWithStorage<'light' | 'dark' | 'system'>(
   'theme',
   'system'
 );
 
-export const languageATom = atomWithStorage<'KO' | 'ENG'>('language', 'KO');
+export const languageATom = atomWithStorage<LanguageType>('language', 'KO');

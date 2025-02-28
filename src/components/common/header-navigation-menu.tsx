@@ -51,7 +51,7 @@ export default function HeaderNavigationMenu({
           {/* content */}
           {menu.children && menu.children?.length > 0 && (
             <div
-              className={`w-full max-h-[460px] group-hover:grid grid-cols-${colSize} grid-flow-col gap-2 p-2 absolute top-11 left-0 hidden shadow-md rounded-md`}
+              className={`w-full max-h-[460px] group-hover:grid grid-cols-${colSize} grid-flow-col gap-2 p-2 absolute top-11 left-0 hidden shadow-md rounded-md bg-background`}
               style={{
                 minWidth: `${+colSize * 160}px`,
                 maxWidth: `${+colSize * 160}px`,
